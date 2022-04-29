@@ -6,7 +6,9 @@
 #    Apr 28, 2022 02:42:13 PM +0300  platform: Windows NT
 # maxdate ------------ CALENDAR MAX DATE
 from datetime import datetime
+from faulthandler import disable
 import sys
+from tkinter import HORIZONTAL
 from tkcalendar import Calendar,DateEntry
 import re
 
@@ -72,7 +74,7 @@ class Toplevel1:
         top.geometry("675x264+660+210")
         top.minsize(120, 1)
         top.maxsize(5764, 1061)
-        top.resizable(1,  1)
+        top.resizable(0,  0)
         top.title("New Toplevel")
         top.configure(background="#d9d9d9")
 
@@ -168,6 +170,10 @@ class Toplevel1:
         self.TButton1.configure(command=natan_support.submit)
         self.TButton1.configure(takefocus="")
         self.TButton1.configure(text='''Submit''')
+
+        progress = ttk.Progressbar(root, orient = HORIZONTAL ,length = 100, mode = 'indeterminate',)
+        progress.place(relx=0.247, rely=0.827)
+
 
 if __name__ == '__main__':
     vp_start_gui()

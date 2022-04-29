@@ -82,9 +82,7 @@ def init(top, gui, *args, **kwargs):
 
 def submit():
     global selected_date
-    hour_regex = r'\d\d'
-    #selected_date = selected_date.selection_get()
-    
+    hour_regex = r'\d\d'    
     start_hour_value = start_hour.get()
     start_minute_value = start_minute.get()
     end_hour_value = end_hour.get()
