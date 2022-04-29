@@ -6,8 +6,9 @@
 #    Apr 28, 2022 02:41:44 PM +0300  platform: Windows NT
 
 import sys
-import main
+import log_scan
 import re
+
 
 try:
     import Tkinter as tk
@@ -20,6 +21,7 @@ try:
 except ImportError:
     import tkinter.ttk as ttk
     py3 = True
+
 
 def limitSizeDay(*args):
     hour_regex = r'\d'
@@ -79,10 +81,13 @@ def init(top, gui, *args, **kwargs):
     w = gui
     top_level = top
     root = top
+    
+    
 
 def submit():
     global selected_date
-    hour_regex = r'\d\d'    
+    hour_regex = r'\d\d'
+    
     start_hour_value = start_hour.get()
     start_minute_value = start_minute.get()
     end_hour_value = end_hour.get()
@@ -96,7 +101,7 @@ def submit():
         logs_time = []
         logs_time.append(start_hour_value+":"+start_minute_value)
         logs_time.append(end_hour_value+":"+end_minute_value)
-        main.search_logs(windows_date,logs_time)
+        log_scan.run_thread(windows_date,logs_time)
     else:
         print('invalid input')
     sys.stdout.flush()
