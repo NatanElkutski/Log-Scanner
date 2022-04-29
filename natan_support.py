@@ -70,11 +70,6 @@ def set_Tk_var():
     start_minute.trace('w', limitSizeDay)
     end_hour.trace('w', limitSizeDay)
     end_minute.trace('w', limitSizeDay)
-    
-    #start_hour.set("Hour")
-    #start_minute.set("Minutes")
-    #end_hour.set("Hour")
-    #end_minute.set("Minutes")
 
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
@@ -82,12 +77,8 @@ def init(top, gui, *args, **kwargs):
     top_level = top
     root = top
     
-    
-
 def submit():
     global selected_date
-    hour_regex = r'\d\d'
-    
     start_hour_value = start_hour.get()
     start_minute_value = start_minute.get()
     end_hour_value = end_hour.get()
@@ -97,11 +88,18 @@ def submit():
     if int(sel_date[0]) < 10:
         sel_date[0] = '0'+sel_date[0]
     windows_date = sel_date[2]+'-'+sel_date[0]+'-'+sel_date[1]
-    if  int(start_hour_value) in range(0,24) and int(start_minute_value) in range(0,60) and int(end_hour_value) in range(0,24) and int(end_minute_value) in range(0,60):
-        logs_time = []
-        logs_time.append(start_hour_value+":"+start_minute_value)
-        logs_time.append(end_hour_value+":"+end_minute_value)
-        log_scan.run_thread(windows_date,logs_time)
+    try:
+        if int(start_hour_value) in range(0,24) and int(start_minute_value) in range(0,60) and int(end_hour_value) in range(0,24) and int(end_minute_value) in range(0,60):
+            logs_time = []
+            logs_time.append(start_hour_value+":"+start_minute_value)
+            logs_time.append(end_hour_value+":"+end_minute_value)
+            log_scan.run_thread(windows_date,logs_time)
+    except:
+        if int(start_hour_value) in range(0,24) and int(start_minute_value) in range(0,60):
+            logs_time = []
+            logs_time.append(start_hour_value+":"+start_minute_value)
+            logs_time.append("23:59")
+            log_scan.run_thread(windows_date,logs_time)
     else:
         print('invalid input')
     sys.stdout.flush()

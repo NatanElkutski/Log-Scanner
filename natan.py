@@ -37,7 +37,6 @@ def vp_start_gui():
     top = Toplevel1 (root)
     natan_support.init(root, top)
     log_scan.init(root,top)
-    
     root.mainloop()
 
 w = None
@@ -86,7 +85,6 @@ class Toplevel1:
 
         today = str(datetime.today())
         today_date = re.findall(r'\d\d\d\d-\d\d-\d\d',today).pop().split('-')
-        print(f"today: {today_date}")
         cal = DateEntry(top,selectmode = 'day',year = int(today_date[0]), month = int(today_date[1]), day = int(today_date[2]), textvariable = natan_support.selected_date)
         cal.place(relx=0.320, rely=0.121)
 
@@ -177,13 +175,12 @@ class Toplevel1:
         self.TButton1.configure(takefocus="")
         self.TButton1.configure(text='''Submit''')
 
-        something = 0
         progress = ttk.Progressbar(root, orient = HORIZONTAL ,length = 100, mode = 'determinate',maximum=100)
         progress.place(relx=0.310, rely=0.65)
         progress.configure(variable=log_scan.progress_var)
 
         self.Label3 = tk.Label(top)
-        self.Label3.place(relx=0.0008, rely=0.75, height=50, width=280)
+        self.Label3.place(relx=0.0006, rely=0.75, height=50, width=280)
         self.Label3.configure(activebackground="#f9f9f9")
         self.Label3.configure(activeforeground="black")
         self.Label3.configure(background="#d9d9d9")

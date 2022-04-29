@@ -34,8 +34,12 @@ def init_progress():
 def search_logs(logs_date,logs_time):
         progress_var.set(0)
         try:
-            directory = os.path.normpath(f"C:/logs/{logs_date}")
-            for subdir, dirs, files in os.walk(directory):
+            logs_directory = os.path.normpath(f"C:/logs/{logs_date}")
+            if not os.path.exists(logs_directory):
+                progress_status.set("Selected Date Does not Exists in logs folder ")
+                return
+            for subdir, dirs, files in os.walk(logs_directory):
+                print(" im in")
                 directory = os.path.dirname(os.path.abspath(__file__))
                 start_time_txt = logs_time[0].split(':')
                 end_time_txt = logs_time[1].split(':')
@@ -48,10 +52,12 @@ def search_logs(logs_date,logs_time):
                             break
                 my_file = os.path.join(directory, tmp_name)
                 step = 100/len(files)
-                cnt = step
+                cnt = 0
                 progress_var.set(cnt)
                 txt_printed = False
+                scanned_files = 0
                 for file in files:
+                    progress_status.set("Please Wait...")
                     if file.endswith(".log"):
                         modified = os.path.getmtime(f"C:/logs/{logs_date}/{file}")
                         dateNum = re.findall(r'\d{1,2}:\d{1,2}',str(datetime.datetime.fromtimestamp(modified)))
@@ -68,7 +74,7 @@ def search_logs(logs_date,logs_time):
                                     if re.compile('|'.join(words),re.IGNORECASE).search(line):
                                         with open(my_file, "a") as file_txt:
                                             file_txt.write(line+"\n")
-                                            txt_printed = True
+                                            scanned_files+=1
                                     else:
                                         pass
                             except:
@@ -76,8 +82,11 @@ def search_logs(logs_date,logs_time):
                             #f.close()
                         cnt += step
                         progress_var.set(cnt)
-                        if txt_printed:
-                            progress_status.set(f"Successfully Scanned and exported to:\n{tmp_name}")
+                if scanned_files > 1:
+                    progress_status.set(f"Successfully Scanned and exported to:\n{tmp_name}")
+                else:
+                    print("No logs were found!")
+                    progress_status.set(f"No logs were found!")
                             
                 
                        
