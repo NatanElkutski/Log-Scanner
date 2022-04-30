@@ -3,6 +3,8 @@ import re
 import datetime
 import sys
 import threading
+import numpy as np
+import pandas as pd
 
 try:
     import Tkinter as tk
@@ -56,24 +58,22 @@ def search_logs(logs_date,logs_time):
                 for file in files:
                     progress_status.set("Please Wait...")
                     if file.endswith(".log"):
-                        modified = os.path.getmtime(f"C:/logs/{logs_date}/{file}")
+                        modified = os.path.getmtime(f"E:/logs/{logs_date}/{file}")
                         dateNum = re.findall(r'\d{1,2}:\d{1,2}',str(datetime.datetime.fromtimestamp(modified)))
                         dateHour = datetime.datetime.strptime(str(dateNum[0]), '%H:%M').time()
                         logs_startTime = datetime.datetime.strptime(str(logs_time[0]), '%H:%M').time()
                         logs_EndTime = datetime.datetime.strptime(str(logs_time[1]), '%H:%M').time()
                         if dateHour >= logs_startTime and dateHour <= logs_EndTime:
                             try:
-                                f=open(os.path.join(subdir, file),'r')
-                                a = f.readlines()
-                                with open(my_file, "a") as file_txt:
+                                this_file = "E:/"+tmp_name
+                                with open(this_file, "a") as file_txt:
                                     file_txt.write("\n\n\n--------------------------- "+file+" ---------------------------\n\n\n")
-                                for line in a: 
-                                    if re.compile('|'.join(words),re.IGNORECASE).search(line):
-                                        with open(my_file, "a") as file_txt:
-                                            file_txt.write(line+"\n")
-                                            scanned_files+=1
-                                    else:
-                                        pass
+                                with open(os.path.join(subdir, file)) as log_lines:
+                                    for line in log_lines:
+                                        if any(ext in line for ext in words):
+                                            with open(this_file, "a") as file_txt:
+                                                file_txt.write(line+"\n")
+                                scanned_files+=1
                             except:
                                 print("something went wrong in the file")
                             #f.close()
@@ -92,9 +92,6 @@ def init(top, gui, *args, **kwargs):
     w = gui
     top_level = top
     root = top
-
-
-
 
 
 
