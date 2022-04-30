@@ -3,7 +3,6 @@ import re
 import datetime
 import sys
 import threading
-from tkinter import StringVar
 
 try:
     import Tkinter as tk
@@ -17,7 +16,6 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
-logs_path = 'E:\logs'
 words = ['BT\[','SSI Memory Utilization','REBOOTING NOW!!!','SETUP FAILURE','reboot','### warm reboot ###','FSM1_FSM2_TIMING_OUT_OF_SYNC','Stop recording']
 
 def run_thread(logs_date,logs_time):
@@ -34,7 +32,7 @@ def init_progress():
 def search_logs(logs_date,logs_time):
         progress_var.set(0)
         try:
-            logs_directory = os.path.normpath(f"C:/logs/{logs_date}")
+            logs_directory = os.path.normpath(f"E:/logs/{logs_date}")
             if not os.path.exists(logs_directory):
                 progress_status.set("Selected Date Does not Exists in logs folder ")
                 return
@@ -54,7 +52,6 @@ def search_logs(logs_date,logs_time):
                 step = 100/len(files)
                 cnt = 0
                 progress_var.set(cnt)
-                txt_printed = False
                 scanned_files = 0
                 for file in files:
                     progress_status.set("Please Wait...")
@@ -87,11 +84,6 @@ def search_logs(logs_date,logs_time):
                 else:
                     print("No logs were found!")
                     progress_status.set(f"No logs were found!")
-                            
-                
-                       
-                    
-
         except:
             print("something went wrong")
             pass
@@ -101,9 +93,12 @@ def init(top, gui, *args, **kwargs):
     top_level = top
     root = top
 
-if __name__ == '__main__':
-    import natan
-    natan.vp_start_gui()
+
+
+
+
+
+
 
 """
 ------------------ READ FROM START till END ------------------
